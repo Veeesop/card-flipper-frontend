@@ -1,5 +1,7 @@
 import axios from "axios";
 import { ReactElement, useState } from "react"
+import Deck from "./Deck";
+import EmptyDeck from "./EmptyDeck";
 
 export enum CardSide {
   FRONT,
@@ -16,8 +18,10 @@ interface CardResponse {
   data : {
     cardData: {
       card?: Card,
-      cardsRemaining: "",
-    }
+      cardsRemaining: number,
+    };
+    msg: string,
+    error: boolean
   }
 }
 
@@ -54,8 +58,29 @@ const [flippedCardName, setFlippedCardName] = useState<string>('')
 
 
   return (
-    <div>
-      
+    <div
+    style={{
+      display: 'flex',
+      height: '100vh',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: '#00613e',
+    }}
+    >
+      <div className="draw-pile">
+        { cardsRemaining > 52 || cardsRemaining < 1 ? (
+          <EmptyDeck clickAction={shuffleDeck} displayText="Shuffle Deck" /> 
+          ) : (
+            <Deck cardSide={CardSide.BACK} clickAction={flipCard} />
+          )}
+      </div>
+      <div className="discard-pile">
+        { cardsRemaining > 51  ? (
+          <EmptyDeck displayText="Flip The Cars" /> 
+          ) : (
+            <Deck cardSide={CardSide.FRONT} clickAction={unflipCard}  imageName={flippedCardName}/>
+          )}
+      </div>
     </div>
   );
 }

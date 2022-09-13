@@ -7,9 +7,12 @@ interface Props {
 
 export default function EmptyDeck(props: Props): ReactElement<Props> {
     const {displayText, clickAction} = props;
+    const convertVHToPix = () => {
+        return document.documentElement.clientHeight;
+    }
     return (
         <div
-            onClick={() => clickAction && clickAction()}
+            onClick={():void => clickAction && clickAction()}
             style={{
                 width: `${convertVHToPix() * 0.5 * 0.688696}px`,
                 height: '50vh',
