@@ -15,7 +15,8 @@ interface Card {
 interface CardResponse {
   data : {
     cardData: {
-
+      card?: Card,
+      cardsRemaining: "",
     }
   }
 }
