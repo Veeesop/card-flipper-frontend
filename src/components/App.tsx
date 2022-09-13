@@ -2,6 +2,7 @@ import axios from "axios";
 import { ReactElement, useState } from "react"
 import Deck from "./Deck";
 import EmptyDeck from "./EmptyDeck";
+import Header from "./Header";
 
 export enum CardSide {
   FRONT,
@@ -39,7 +40,7 @@ const [flippedCardName, setFlippedCardName] = useState<string>('')
   }
 
   const flipCard = async ():Promise<void> => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/next-card`)
+    const response: CardResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/next-card`)
     setCardsRemaining(response.data.cardData.cardsRemaining);
 
     if(response.data.cardData.card){
@@ -48,7 +49,7 @@ const [flippedCardName, setFlippedCardName] = useState<string>('')
   }
 
   const unflipCard = async ():Promise<void> => {
-    const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/unflip-card`)
+    const response: CardResponse = await axios.put(`${process.env.REACT_APP_API_URL}/api/unflip-card`)
     setCardsRemaining(response.data.cardData.cardsRemaining)
 
     if(response.data.cardData.card) {
@@ -58,6 +59,7 @@ const [flippedCardName, setFlippedCardName] = useState<string>('')
 
 
   return (
+
     <div
     style={{
       display: 'flex',
@@ -67,6 +69,7 @@ const [flippedCardName, setFlippedCardName] = useState<string>('')
       background: '#00613e',
     }}
     >
+      <Header/>
       <div className="draw-pile">
         { cardsRemaining > 52 || cardsRemaining < 1 ? (
           <EmptyDeck clickAction={shuffleDeck} displayText="Shuffle Deck" /> 
